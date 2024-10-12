@@ -53,10 +53,6 @@ func (c *cache[K, V]) Get(key K) V {
 
 // NewAuto is the same as New but doesnt require to state K and V
 // It takes key and value as a params but do nothing with them
-func NewAuto[K comparable, V any](cap int64, _key K, _value V) *cache[K, V] {
-	return &cache[K, V]{
-		linkedList: list.New[node[K, V]](),
-		keyToValue: make(map[K]*list.Element[node[K, V]]),
-		capacity:   cap,
-	}
+func NewAuto[K comparable, V any](cap int64, _key K, _value V) Cache[K, V] {
+	return New[K, V](cap)
 }
