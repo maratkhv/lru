@@ -4,7 +4,9 @@ import (
 	"github.com/maratkhv/lru/list"
 )
 
-type Cache interface {
+type Cache[K comparable, V any] interface {
+	Put(key K, v V)
+	Get(key K) V
 }
 
 type node[K comparable, V any] struct {
@@ -18,7 +20,7 @@ type cache[K comparable, V any] struct {
 	capacity   int64
 }
 
-func New[K comparable, V any](cap int64) *cache[K, V] {
+func New[K comparable, V any](cap int64) Cache[K, V] {
 	return &cache[K, V]{
 		linkedList: list.New[node[K, V]](),
 		keyToValue: make(map[K]*list.Element[node[K, V]]),
