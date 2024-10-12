@@ -8,9 +8,6 @@ This is a simple implementation of an LRU (Least Recently Used) cache built on t
 
 ## Usage
 ```go
-cache := lru.New[keyType, valTupe](10)  // Initialize cache with capacity of 10
+cache := lru.New[keyType, valueType](10)  // Initialize cache with capacity of 10
 cache.Put("key1", "value1")
-value, found := cache.Get("key1")
-if found {
-    fmt.Println(value)
-}
+value := cache.Get("key1")
