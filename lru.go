@@ -6,7 +6,7 @@ import (
 
 type Cache[K comparable, V any] interface {
 	Put(key K, v V)
-	Get(key K) V
+	Get(key K) (v V, found bool)
 }
 
 type node[K comparable, V any] struct {
@@ -43,16 +43,20 @@ func (c *cache[K, V]) Put(key K, v V) {
 	}
 }
 
-func (c *cache[K, V]) Get(key K) V {
-	e := c.keyToValue[key]
+func (c *cache[K, V]) Get(key K) (v V, found bool) {
+	e, ok := c.keyToValue[key]
+	if !ok {
+		var empty V
+		return empty, false
+	}
 	c.linkedList.Pop(e)
 	e = c.linkedList.PushFront(e.Value)
 	c.keyToValue[key] = e
-	return e.Value.value
+	return e.Value.value, true
 }
 
 // NewAuto is the same as New but doesnt require to state K and V
-// It takes key and value as a params but do nothing with them
+// It takes key and value as a params but does nothing with them
 func NewAuto[K comparable, V any](cap int64, _key K, _value V) Cache[K, V] {
 	return New[K, V](cap)
 }

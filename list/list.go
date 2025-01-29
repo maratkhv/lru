@@ -71,7 +71,7 @@ func (l *List[V]) PushBack(v V) *Element[V] {
 
 // PushBack inserts value v to the front of list
 func (l *List[V]) PushFront(v V) *Element[V] {
-	return l.insert(v, l.head.next)
+	return l.insert(v, &l.head)
 }
 
 // InsertAfter inserts value v after at
